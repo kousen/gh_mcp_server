@@ -6,7 +6,11 @@
       "Bash(./gradlew:*)",
       "Bash(git checkout:*)",
       "Bash(rm:*)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Bash(git push:*)",
+      "Bash(git branch:*)",
+      "Bash(gh repo edit:*)",
+      "Bash(grep:*)"
     ],
     "deny": []
   }
