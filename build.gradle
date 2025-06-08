@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.5.0'
     id 'io.spring.dependency-management' version '1.1.7'
+    id 'com.diffplug.spotless' version '6.25.0'
 }
 
 group = 'com.kousenit'
@@ -39,4 +40,20 @@ tasks.named('test', Test) {
 
 bootRun {
     jvmArgs '-Xshare:off'
+}
+
+spotless {
+    java {
+        // Use Google Java Format
+        googleJavaFormat('1.19.2')
+        
+        // Remove unused imports
+        removeUnusedImports()
+        
+        // Format license header (optional - comment out if you don't want it)
+        // licenseHeaderFile rootProject.file('LICENSE-HEADER')
+        
+        // Exclude build directories
+        targetExclude 'build/**'
+    }
 }

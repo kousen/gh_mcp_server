@@ -9,15 +9,12 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class GhMcpServerApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(GhMcpServerApplication.class, args);
-    }
+  public static void main(String[] args) {
+    SpringApplication.run(GhMcpServerApplication.class, args);
+  }
 
-    @Bean
-    public ToolCallbackProvider githubTools(GithubService githubService) {
-        return MethodToolCallbackProvider.builder()
-                .toolObjects(githubService)
-                .build();
-    }
-
+  @Bean
+  public ToolCallbackProvider githubTools(GithubService githubService) {
+    return MethodToolCallbackProvider.builder().toolObjects(githubService).build();
+  }
 }
