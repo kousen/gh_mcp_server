@@ -1,0 +1,10 @@
+{
+  "properties": [
+    {
+      "name": "github.defaultBranch",
+      "type": "java.lang.String",
+      "description": "Default branch name for GitHub operations when no branch is specified",
+      "defaultValue": "main"
+    }
+  ]
+}

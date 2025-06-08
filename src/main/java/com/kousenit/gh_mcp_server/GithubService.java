@@ -7,14 +7,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import org.springframework.ai.tool.annotation.Tool;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Service;
 
 @Service
+@EnableConfigurationProperties(GitHubProperties.class)
 public class GithubService {
 
-  @Value("${github.default-branch:main}")
-  private String defaultBranch;
+  private final GitHubProperties gitHubProperties;
+
+  public GithubService(GitHubProperties gitHubProperties) {
+    this.gitHubProperties = gitHubProperties;
+  }
 
   private GithubCommand executeCommand(String... args) {
     var processBuilder = new ProcessBuilder(); // Java 10+ var
@@ -208,7 +212,7 @@ public class GithubService {
   @Tool(description = "Create a new branch in a GitHub repository")
   public String createBranch(String owner, String repo, String branchName, String fromBranch) {
     // First get the SHA of the source branch
-    String sourceBranch = fromBranch != null ? fromBranch : defaultBranch;
+    String sourceBranch = fromBranch != null ? fromBranch : gitHubProperties.defaultBranch();
     String sha =
         executeGh(
             "api",

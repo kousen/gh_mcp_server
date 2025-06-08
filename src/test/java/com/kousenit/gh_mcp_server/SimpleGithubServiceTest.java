@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
 @SpringBootTest
-@TestPropertySource(properties = {"github.default-branch=main"})
+@TestPropertySource(properties = {"github.defaultBranch=main"})
 @DisplayName("Simple GitHub Service Tests")
 class SimpleGithubServiceTest {
 

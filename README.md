@@ -159,7 +159,7 @@ The server uses Spring Boot's default configuration. You can customize settings 
 
 ### Key Configuration Options
 
-- `github.default-branch` - Default branch name for operations (default: `main`)
+- `github.defaultBranch` - Default branch name for operations (default: `main`)
 - `spring.threads.virtual.enabled` - Enable virtual threads for better performance (default: `true`)
 - MCP server runs in STDIO mode for CLI integration
 
