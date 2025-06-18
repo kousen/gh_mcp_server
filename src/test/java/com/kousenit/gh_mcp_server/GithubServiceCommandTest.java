@@ -15,7 +15,7 @@ class GithubServiceCommandTest {
 
   @BeforeEach
   void setUp() {
-    GitHubProperties gitHubProperties = new GitHubProperties("main");
+    GitHubProperties gitHubProperties = new GitHubProperties("main", 30, 10, 30);
     githubService = new TestGithubService(gitHubProperties);
     githubService.reset();
   }
@@ -95,14 +95,25 @@ class GithubServiceCommandTest {
     }
 
     @Test
-    @DisplayName("Should use minimum limit of 1 for getCommitHistory")
-    void testGetCommitHistoryMinLimit() {
+    @DisplayName("Should use default limit for getCommitHistory when limit is 0")
+    void testGetCommitHistoryZeroLimit() {
       githubService.getCommitHistory("owner", "repo", 0);
 
       List<String> command = githubService.getLastCommand();
       assertThat(command)
           .contains(
-              ".[:1] | .[] | {sha: .sha[0:7], message: .commit.message, author: .commit.author.name, date: .commit.author.date}");
+              ".[:10] | .[] | {sha: .sha[0:7], message: .commit.message, author: .commit.author.name, date: .commit.author.date}");
+    }
+
+    @Test
+    @DisplayName("Should use default limit for getCommitHistory without limit parameter")
+    void testGetCommitHistoryDefaultLimit() {
+      githubService.getCommitHistory("owner", "repo");
+
+      List<String> command = githubService.getLastCommand();
+      assertThat(command)
+          .contains(
+              ".[:10] | .[] | {sha: .sha[0:7], message: .commit.message, author: .commit.author.name, date: .commit.author.date}");
     }
   }
 

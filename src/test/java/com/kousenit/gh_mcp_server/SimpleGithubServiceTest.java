@@ -13,7 +13,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
 @SpringBootTest
-@TestPropertySource(properties = {"github.defaultBranch=main"})
+@TestPropertySource(
+    properties = {
+      "github.defaultBranch=main",
+      "github.commandTimeoutSeconds=30",
+      "github.defaultCommitLimit=10",
+      "github.defaultSearchLimit=30"
+    })
 @DisplayName("GitHub Service Integration Tests")
 class SimpleGithubServiceTest {
 

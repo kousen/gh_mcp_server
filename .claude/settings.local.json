@@ -13,7 +13,8 @@
       "Bash(grep:*)",
       "Bash(git restore:*)",
       "Bash(gh api:*)",
-      "Bash(gh:*)"
+      "Bash(gh:*)",
+      "Bash(find:*)"
     ],
     "deny": []
   }

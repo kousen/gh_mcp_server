@@ -14,7 +14,7 @@ class GithubServiceEdgeCaseTest {
 
   @BeforeEach
   void setUp() {
-    GitHubProperties gitHubProperties = new GitHubProperties("main");
+    GitHubProperties gitHubProperties = new GitHubProperties("main", 30, 10, 30);
     githubService = new TestGithubService(gitHubProperties);
     githubService.reset();
   }

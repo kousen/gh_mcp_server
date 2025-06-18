@@ -47,11 +47,16 @@ public class GithubService {
             Thread.ofVirtual()
                 .start(() -> errorReader.lines().forEach(line -> error.append(line).append("\n")));
 
-        // Wait for process to complete with timeout
-        boolean finished = process.waitFor(30, TimeUnit.SECONDS);
+        // Wait for process to complete with configurable timeout
+        boolean finished =
+            process.waitFor(gitHubProperties.commandTimeoutSeconds(), TimeUnit.SECONDS);
         if (!finished) {
           process.destroyForcibly();
-          return new GithubCommand("", "Command timed out after 30 seconds", -1);
+          return new GithubCommand(
+              "",
+              "Command timed out after %d seconds"
+                  .formatted(gitHubProperties.commandTimeoutSeconds()),
+              -1);
         }
 
         // Wait for threads to finish reading
@@ -76,13 +81,18 @@ public class GithubService {
 
   @Tool(description = "Get commit history for a repository")
   public String getCommitHistory(String owner, String repo, int limit) {
+    int actualLimit = limit > 0 ? limit : gitHubProperties.defaultCommitLimit();
     return executeGh(
         "api",
         "repos/" + owner + "/" + repo + "/commits",
         "--jq",
         String.format(
             ".[:%d] | .[] | {sha: .sha[0:7], message: .commit.message, author: .commit.author.name, date: .commit.author.date}",
-            Math.max(limit, 1)));
+            actualLimit));
+  }
+
+  public String getCommitHistory(String owner, String repo) {
+    return getCommitHistory(owner, repo, gitHubProperties.defaultCommitLimit());
   }
 
   @Tool(description = "List issues in a GitHub repository")
@@ -117,8 +127,7 @@ public class GithubService {
   public String createIssue(String owner, String repo, String title, String body) {
     List<String> args =
         new ArrayList<>(List.of("issue", "create", "--repo", owner + "/" + repo, "--title", title));
-    // Pattern matching for instanceof (Java 17+)
-    if (body instanceof String s && !s.trim().isEmpty()) {
+    if (body != null && !body.trim().isEmpty()) {
       args.addAll(List.of("--body", body));
     }
     return executeGh(args.toArray(new String[0]));
@@ -165,8 +174,7 @@ public class GithubService {
                 head,
                 "--base",
                 base));
-    // Pattern matching for instanceof (Java 17+)
-    if (body instanceof String s && !s.trim().isEmpty()) {
+    if (body != null && !body.trim().isEmpty()) {
       args.addAll(List.of("--body", body));
     }
     return executeGh(args.toArray(new String[0]));
@@ -179,8 +187,7 @@ public class GithubService {
 
     // Build the API endpoint with query parameter for branch
     String endpoint = "repos/" + owner + "/" + repo + "/contents/" + path;
-    // Pattern matching for instanceof (Java 17+)
-    if (branch instanceof String b && !b.trim().isEmpty()) {
+    if (branch != null && !branch.trim().isEmpty()) {
       endpoint += "?ref=" + branch;
     }
     args.add(endpoint);
