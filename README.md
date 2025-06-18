@@ -142,6 +142,7 @@ After configuring Claude Desktop, you can use natural language to interact with 
 
 ### Repository Management
 - *"List my repositories"* → Shows your repositories with details
+- *"List my private repositories"* → Filter by visibility (public/private/internal)
 - *"Search for Spring Boot repositories with over 1000 stars"*
 - *"Show me details about the microsoft/vscode repository"*
 - *"Get the last 5 commits from my project repository"*
@@ -237,7 +238,7 @@ The server uses Spring Boot's default configuration. You can customize settings 
 ## Available Operations (26 Total)
 
 ### Repository Operations
-- `listRepositories` - List user's repositories
+- `listRepositories` - List user's repositories with optional visibility filter (public/private/internal)
 - `searchRepositories` - Search GitHub repositories  
 - `getRepository` - Get detailed repository information
 - `getCommitHistory` - Get repository commit history with configurable limit

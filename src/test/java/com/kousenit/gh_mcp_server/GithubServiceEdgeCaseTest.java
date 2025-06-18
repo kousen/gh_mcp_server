@@ -252,4 +252,16 @@ class GithubServiceEdgeCaseTest {
     // Should still have base command even if no edits
     assertThat(command).containsExactly("gh", "issue", "edit", "123", "--repo", "owner/repo");
   }
+
+  @Test
+  @DisplayName("Should handle empty visibility in listRepositories")
+  void testListRepositoriesEmptyVisibility() {
+    githubService.listRepositories("  ");
+
+    List<String> command = githubService.getLastCommand();
+    assertThat(command).doesNotContain("--visibility");
+    assertThat(command)
+        .containsExactly(
+            "gh", "repo", "list", "--json", "name,owner,description,isPrivate,url,updatedAt");
+  }
 }

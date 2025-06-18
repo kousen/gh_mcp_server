@@ -12,7 +12,8 @@
       "Bash(gh repo edit:*)",
       "Bash(grep:*)",
       "Bash(git restore:*)",
-      "Bash(gh api:*)"
+      "Bash(gh api:*)",
+      "Bash(gh:*)"
     ],
     "deny": []
   }

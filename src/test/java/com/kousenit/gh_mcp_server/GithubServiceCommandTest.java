@@ -40,9 +40,26 @@ class GithubServiceCommandTest {
     }
 
     @Test
-    @DisplayName("Should construct correct command for listRepositories")
-    void testListRepositories() {
-      githubService.listRepositories("all");
+    @DisplayName("Should construct correct command for listRepositories with visibility")
+    void testListRepositoriesWithVisibility() {
+      githubService.listRepositories("private");
+
+      List<String> command = githubService.getLastCommand();
+      assertThat(command)
+          .containsExactly(
+              "gh",
+              "repo",
+              "list",
+              "--visibility",
+              "private",
+              "--json",
+              "name,owner,description,isPrivate,url,updatedAt");
+    }
+
+    @Test
+    @DisplayName("Should omit visibility when null")
+    void testListRepositoriesNoVisibility() {
+      githubService.listRepositories(null);
 
       List<String> command = githubService.getLastCommand();
       assertThat(command)

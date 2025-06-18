@@ -61,7 +61,7 @@ class SimpleGithubServiceTest {
     void testListRepositories() {
       assumeTrue(ghAvailable, "GitHub CLI is not available");
 
-      String result = githubService.listRepositories("all");
+      String result = githubService.listRepositories("public");
       assertThat(result).isNotNull();
     }
 

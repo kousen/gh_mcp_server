@@ -109,7 +109,7 @@ Run tests:
 
 ### Repository Operations
 Perfect for repository discovery and management:
-- `listRepositories()` - Find user's repositories
+- `listRepositories()` - Find user's repositories with visibility filtering
 - `searchRepositories()` - Discover public repositories
 - `getRepository()` - Get detailed repo information
 - `getCommitHistory()` - Review recent changes with configurable commit limit

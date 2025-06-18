@@ -193,8 +193,16 @@ public class GithubService {
   }
 
   @Tool(description = "List repositories for the authenticated user")
-  public String listRepositories(String type) {
-    return executeGh("repo", "list", "--json", "name,owner,description,isPrivate,url,updatedAt");
+  public String listRepositories(String visibility) {
+    List<String> args = new ArrayList<>(List.of("repo", "list"));
+
+    if (visibility != null && !visibility.trim().isEmpty()) {
+      args.addAll(List.of("--visibility", visibility));
+    }
+
+    args.addAll(List.of("--json", "name,owner,description,isPrivate,url,updatedAt"));
+
+    return executeGh(args.toArray(new String[0]));
   }
 
   @Tool(description = "Search for repositories on GitHub")
