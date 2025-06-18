@@ -113,12 +113,14 @@ Replace `/path/to/gh_mcp_server` with the actual path to your project directory.
      "mcpServers": {
        "github": {
          "command": "java",
-         "args": ["-jar", "/path/to/gh_mcp_server/build/libs/gh_mcp_server.jar"],
+         "args": ["-jar", "/path/to/gh_mcp_server/build/libs/gh_mcp_server-1.0.0.jar"],
          "env": {}
        }
      }
    }
    ```
+   
+   > **Note**: The JAR filename includes the version number (currently `1.0.0`). If you update to a newer version, make sure to update the JAR filename in your configuration accordingly.
 
    **Option B: Using Gradle**
    ```json
@@ -319,6 +321,33 @@ All operations return optimized JSON responses and support comprehensive error h
 - Check GitHub CLI documentation: `gh help`
 - Review MCP protocol: https://modelcontextprotocol.io/
 - For server issues, enable debug logging in application.properties
+
+## Deployment Considerations
+
+### JAR Versioning
+
+The build process generates JAR files with version numbers in the filename (e.g., `gh_mcp_server-1.0.0.jar`). When deploying or updating:
+
+1. **Initial Deployment**: Use the current version in your Claude Desktop configuration:
+   ```json
+   "args": ["-jar", "/path/to/gh_mcp_server/build/libs/gh_mcp_server-1.0.0.jar"]
+   ```
+
+2. **Version Updates**: When updating to a new version, you must:
+   - Build the new version: `./gradlew build`
+   - Update your Claude Desktop configuration with the new JAR filename
+   - Restart Claude Desktop to load the new version
+
+3. **Version-Independent Deployment**: For easier deployment, you can:
+   - Use the Gradle option (automatically uses latest build)
+   - Create a symlink: `ln -sf gh_mcp_server-1.0.0.jar gh_mcp_server.jar`
+   - Use a deployment script that handles version updates
+
+### Configuration Management
+
+- Keep your Claude Desktop configuration in version control
+- Document the specific JAR version being used in production
+- Consider using environment variables for paths in deployment scripts
 
 ## Technology Stack
 

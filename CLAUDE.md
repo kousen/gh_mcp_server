@@ -66,11 +66,12 @@ All operations delegate to the `gh` CLI tool. The service acts as a thin wrapper
 ## Development Guidelines
 
 ### When Making Changes:
-1. Run `./gradlew spotlessApply` to format code
+1. Run `./gradlew spotlessApply` to format code (or just `./gradlew build` - it runs automatically)
 2. Use `String.formatted()` for string construction
 3. Ensure all streams are properly closed
 4. Add appropriate error handling
 5. Keep the service layer thin - delegate to `gh` CLI
+6. **Version Updates**: If changing the version in build.gradle, update deployment documentation
 
 ### Testing
 The project includes comprehensive test coverage:
@@ -137,6 +138,20 @@ Monitor and manage deployments:
 Code exploration and development:
 - `getFileContents()` to read source files
 - `listBranches()` → `createBranch()` for feature development
+
+## Deployment Notes
+
+### JAR Versioning Impact
+The build produces versioned JAR files (e.g., `gh_mcp_server-1.0.0.jar`). When deploying:
+
+- **Claude Desktop Configuration**: Must reference the specific versioned JAR filename
+- **Version Updates**: Require updating the JAR filename in MCP configuration
+- **CI/CD Considerations**: Deployment scripts should handle version changes
+
+### Recommended Deployment Approach
+1. Use the Gradle option in Claude Desktop for development (auto-uses latest build)
+2. Use versioned JAR for production deployments
+3. Create symlinks or deployment scripts for easier version management
 
 ## Best Practices for AI Assistants
 
