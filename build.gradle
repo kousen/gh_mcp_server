@@ -58,3 +58,6 @@ spotless {
         targetExclude 'build/**'
     }
 }
+
+// Make compileJava depend on spotlessApply to ensure code is formatted before compilation
+compileJava.dependsOn spotlessApply
