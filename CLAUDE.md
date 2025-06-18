@@ -112,7 +112,7 @@ Perfect for repository discovery and management:
 - `listRepositories()` - Find user's repositories
 - `searchRepositories()` - Discover public repositories
 - `getRepository()` - Get detailed repo information
-- `getCommitHistory()` - Review recent changes
+- `getCommitHistory()` - Review recent changes with configurable commit limit
 
 ### Issue Management Workflow
 Complete issue lifecycle management:

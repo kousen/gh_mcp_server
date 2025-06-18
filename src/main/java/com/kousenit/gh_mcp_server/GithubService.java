@@ -75,8 +75,14 @@ public class GithubService {
   }
 
   @Tool(description = "Get commit history for a repository")
-  public String getCommitHistory(String owner, String repo) {
-    return executeGh("repo", "view", String.format("%s/%s", owner, repo), "--json", "commits");
+  public String getCommitHistory(String owner, String repo, int limit) {
+    return executeGh(
+        "api",
+        "repos/" + owner + "/" + repo + "/commits",
+        "--jq",
+        String.format(
+            ".[:%d] | .[] | {sha: .sha[0:7], message: .commit.message, author: .commit.author.name, date: .commit.author.date}",
+            Math.max(limit, 1)));
   }
 
   @Tool(description = "List issues in a GitHub repository")

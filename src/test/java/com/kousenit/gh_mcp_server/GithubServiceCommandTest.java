@@ -27,11 +27,16 @@ class GithubServiceCommandTest {
     @Test
     @DisplayName("Should construct correct command for getCommitHistory")
     void testGetCommitHistory() {
-      githubService.getCommitHistory("octocat", "Hello-World");
+      githubService.getCommitHistory("octocat", "Hello-World", 10);
 
       List<String> command = githubService.getLastCommand();
       assertThat(command)
-          .containsExactly("gh", "repo", "view", "octocat/Hello-World", "--json", "commits");
+          .containsExactly(
+              "gh",
+              "api",
+              "repos/octocat/Hello-World/commits",
+              "--jq",
+              ".[:10] | .[] | {sha: .sha[0:7], message: .commit.message, author: .commit.author.name, date: .commit.author.date}");
     }
 
     @Test
@@ -70,6 +75,17 @@ class GithubServiceCommandTest {
 
       List<String> command = githubService.getLastCommand();
       assertThat(command).contains("--limit", "10");
+    }
+
+    @Test
+    @DisplayName("Should use minimum limit of 1 for getCommitHistory")
+    void testGetCommitHistoryMinLimit() {
+      githubService.getCommitHistory("owner", "repo", 0);
+
+      List<String> command = githubService.getLastCommand();
+      assertThat(command)
+          .contains(
+              ".[:1] | .[] | {sha: .sha[0:7], message: .commit.message, author: .commit.author.name, date: .commit.author.date}");
     }
   }
 

@@ -144,6 +144,7 @@ After configuring Claude Desktop, you can use natural language to interact with 
 - *"List my repositories"* → Shows your repositories with details
 - *"Search for Spring Boot repositories with over 1000 stars"*
 - *"Show me details about the microsoft/vscode repository"*
+- *"Get the last 5 commits from my project repository"*
 - *"What branches exist in my project repository?"*
 
 ### Issue Tracking
@@ -239,7 +240,7 @@ The server uses Spring Boot's default configuration. You can customize settings 
 - `listRepositories` - List user's repositories
 - `searchRepositories` - Search GitHub repositories  
 - `getRepository` - Get detailed repository information
-- `getCommitHistory` - Get repository commit history
+- `getCommitHistory` - Get repository commit history with configurable limit
 - `listBranches` - List repository branches
 - `createBranch` - Create a new branch
 

@@ -147,7 +147,7 @@ class SimpleGithubServiceTest {
     void testCommandTimeout() {
       // This test would require mocking or a special test command
       // For now, just verify the service handles normal commands
-      String result = githubService.getCommitHistory("octocat", "Hello-World");
+      String result = githubService.getCommitHistory("octocat", "Hello-World", 5);
       assertThat(result).isNotNull();
     }
 
