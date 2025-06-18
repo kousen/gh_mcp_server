@@ -4,7 +4,31 @@ This document provides context and guidance for AI assistants (like Claude) work
 
 ## Project Overview
 
-This is a Spring Boot application that implements a Model Context Protocol (MCP) server for GitHub operations. It serves as a lightweight alternative to the official Docker-based GitHub MCP server, wrapping the GitHub CLI (`gh`) to expose GitHub functionality as tools for AI assistants.
+This is a Spring Boot application that implements a Model Context Protocol (MCP) server for comprehensive GitHub operations. It serves as a lightweight alternative to the official Docker-based GitHub MCP server, wrapping the GitHub CLI (`gh`) to expose 26 GitHub operations as tools for AI assistants.
+
+### Available Operations (26 total)
+
+**Repository Management (5 operations)**
+- List repositories, search repositories, get repository details
+- List/create branches, get commit history
+
+**Issue Lifecycle (6 operations)**  
+- List, view, create, close, comment on, and edit issues
+
+**Pull Request Lifecycle (6 operations)**
+- List, view, create, merge, close, and comment on pull requests
+- Support for merge strategies: merge, squash, rebase
+
+**Workflow & CI/CD (3 operations)**
+- List workflows, list workflow runs, view workflow run details
+- Essential for monitoring and managing GitHub Actions
+
+**Release Management (3 operations)**
+- List releases, view release details, create releases
+- Support for draft and prerelease options
+
+**File & User Operations (3 operations)**
+- Get file contents, get authenticated user details, branch operations
 
 ## Architecture
 
@@ -49,9 +73,18 @@ All operations delegate to the `gh` CLI tool. The service acts as a thin wrapper
 5. Keep the service layer thin - delegate to `gh` CLI
 
 ### Testing
-- Focus on integration tests that verify Spring wiring
-- Mock external processes only when necessary
-- Test both success and error scenarios
+The project includes comprehensive test coverage:
+
+- **Command Tests**: Validate all 26 operations generate correct `gh` commands
+- **Edge Case Tests**: Handle special characters, Unicode, null values, error scenarios
+- **Integration Tests**: Optional real GitHub CLI execution with `-Dtest.gh.integration=true`
+- **Test Coverage**: 75+ test cases ensuring robust command syntax validation
+
+Run tests:
+```bash
+./gradlew test                           # All tests (excluding integration)
+./gradlew test -Dtest.gh.integration=true  # Include real gh CLI tests
+```
 
 ### Common Tasks
 - **Add a new GitHub operation**: Create a new `@Tool` method in `GithubService`
@@ -72,11 +105,52 @@ All operations delegate to the `gh` CLI tool. The service acts as a thin wrapper
 - All operations require prior GitHub CLI authentication
 - Read-only operations are safe; write operations modify GitHub resources
 
+## Operation Categories and Use Cases
+
+### Repository Operations
+Perfect for repository discovery and management:
+- `listRepositories()` - Find user's repositories
+- `searchRepositories()` - Discover public repositories
+- `getRepository()` - Get detailed repo information
+- `getCommitHistory()` - Review recent changes
+
+### Issue Management Workflow
+Complete issue lifecycle management:
+- `listIssues()` → `getIssue()` → `commentOnIssue()` → `closeIssue()`
+- `createIssue()` for new bug reports or feature requests
+- `editIssue()` to update titles and descriptions
+
+### Pull Request Workflow  
+Full PR lifecycle with merge strategies:
+- `listPullRequests()` → `getPullRequest()` → `commentOnPullRequest()`
+- `createPullRequest()` for new contributions
+- `mergePullRequest()` with merge/squash/rebase options
+- `closePullRequest()` for rejected PRs
+
+### CI/CD and Release Management
+Monitor and manage deployments:
+- `listWorkflows()` → `listWorkflowRuns()` → `getWorkflowRun()`
+- `listReleases()` → `getRelease()` for version tracking
+- `createRelease()` for new software versions
+
+### File and Branch Operations
+Code exploration and development:
+- `getFileContents()` to read source files
+- `listBranches()` → `createBranch()` for feature development
+
+## Best Practices for AI Assistants
+
+1. **Always check authentication** with `getMe()` before operations
+2. **Use specific JSON fields** - all operations return optimized JSON
+3. **Handle errors gracefully** - operations return error messages when CLI fails
+4. **Batch related operations** - e.g., list issues then get specific issue details
+5. **Respect rate limits** - GitHub CLI handles rate limiting automatically
+
 ## Future Enhancements
 
 Consider adding:
-- Retry logic for transient failures
-- Configurable timeout per operation
-- Caching for frequently accessed data
-- Support for GitHub Enterprise
-- More comprehensive error messages
+- Gist operations for code snippets
+- Repository creation and settings management
+- Advanced search with filters
+- Webhook management
+- GitHub Apps integration
