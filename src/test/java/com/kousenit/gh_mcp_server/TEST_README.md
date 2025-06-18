@@ -8,12 +8,15 @@ This test suite validates that all GitHub CLI (`gh`) commands are constructed co
 A test utility class that extends `GithubService` and captures all executed commands without actually running them. This allows us to verify command syntax without requiring GitHub CLI to be installed or authenticated.
 
 ### 2. GithubServiceCommandTest
-Comprehensive tests for all service methods, organized by command type:
-- **Repository Commands**: Tests for repository operations (list, search, get commits)
-- **Issue Commands**: Tests for issue operations (list, get, create)
-- **Pull Request Commands**: Tests for PR operations (list, get, create)
+Comprehensive tests for all 26 service methods, organized by command type:
+- **Repository Commands**: Tests for repository operations (list, search, get commits, get details)
+- **Issue Commands**: Tests for issue operations (list, get, create, close, comment, edit)
+- **Pull Request Commands**: Tests for PR operations (list, get, create, merge, close, comment)
 - **File and Branch Commands**: Tests for file content retrieval and branch operations
 - **User Commands**: Tests for user information retrieval
+- **Workflow and Actions Commands**: Tests for CI/CD operations (list workflows, list/view runs)
+- **Release Commands**: Tests for release operations (list, view, create)
+- **Repository Management**: Tests for detailed repository information
 
 ### 3. GithubServiceEdgeCaseTest
 Edge case tests covering:

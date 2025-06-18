@@ -32,19 +32,37 @@ Replace `/path/to/gh_mcp_server` with the actual path to your project directory.
 ### Repository Operations
 - List repositories for authenticated user
 - Search repositories on GitHub
+- Get detailed repository information
 - List branches in a repository
 - Create new branches
 - Get file contents from repositories
+- Get commit history
 
 ### Issue Management
 - List issues (open, closed, or all)
 - Get detailed issue information
 - Create new issues
+- Close issues
+- Add comments to issues
+- Edit issue title and body
 
 ### Pull Request Management
 - List pull requests
 - Get detailed pull request information
 - Create new pull requests
+- Merge pull requests (merge, squash, or rebase)
+- Close pull requests
+- Add comments to pull requests
+
+### Workflow and Actions
+- List workflows in a repository
+- List workflow runs with optional filtering
+- View detailed workflow run information
+
+### Release Management
+- List releases
+- View release details
+- Create new releases (with draft/prerelease options)
 
 ### User Operations
 - Get authenticated user details
