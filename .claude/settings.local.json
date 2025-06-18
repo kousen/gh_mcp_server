@@ -14,7 +14,9 @@
       "Bash(git restore:*)",
       "Bash(gh api:*)",
       "Bash(gh:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(ls:*)",
+      "Bash(ln:*)"
     ],
     "deny": []
   }
