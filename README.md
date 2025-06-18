@@ -101,6 +101,8 @@ Replace `/path/to/gh_mcp_server` with the actual path to your project directory.
    git clone <repository-url>
    cd gh_mcp_server
    ./gradlew build
+   # Create version-independent symlink (optional)
+   cd build/libs && ln -sf gh_mcp_server-1.0.0.jar gh_mcp_server.jar && cd ../..
    ```
 
 4. **Configure Claude Desktop**
