@@ -85,6 +85,7 @@ Run tests:
 ```bash
 ./gradlew test                           # All tests (excluding integration)
 ./gradlew test -Dtest.gh.integration=true  # Include real gh CLI tests
+./gradlew createSymlink                  # Manually create version-independent symlink
 ```
 
 ### Common Tasks
@@ -150,9 +151,9 @@ The build produces versioned JAR files (e.g., `gh_mcp_server-1.0.0.jar`). When d
 
 ### Recommended Deployment Approach
 1. Use the Gradle option in Claude Desktop for development (auto-uses latest build)
-2. Use the provided symlink `gh_mcp_server.jar` for version-independent deployment
+2. Use the auto-generated symlink `gh_mcp_server.jar` for version-independent deployment
 3. Use versioned JAR for version-specific production deployments
-4. Update symlink when deploying new versions: `ln -sf gh_mcp_server-X.Y.Z.jar gh_mcp_server.jar`
+4. Symlink is automatically maintained by Gradle build process (no manual updates needed)
 
 ## Best Practices for AI Assistants
 

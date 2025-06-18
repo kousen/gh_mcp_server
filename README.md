@@ -101,9 +101,9 @@ Replace `/path/to/gh_mcp_server` with the actual path to your project directory.
    git clone <repository-url>
    cd gh_mcp_server
    ./gradlew build
-   # Create version-independent symlink (optional)
-   cd build/libs && ln -sf gh_mcp_server-1.0.0.jar gh_mcp_server.jar && cd ../..
    ```
+   
+   > **Note**: The build automatically creates a version-independent symlink `gh_mcp_server.jar` → `gh_mcp_server-1.0.0.jar`
 
 4. **Configure Claude Desktop**
    
@@ -341,15 +341,14 @@ The build process generates JAR files with version numbers in the filename (e.g.
    - Restart Claude Desktop to load the new version
 
 3. **Version-Independent Deployment**: For easier deployment, you can:
-   - Use the provided symlink `gh_mcp_server.jar` (already created in build/libs/)
+   - Use the auto-generated symlink `gh_mcp_server.jar` (created automatically during build)
    - Use the Gradle option (automatically uses latest build)
    - Use a deployment script that handles version updates
 
-   **Symlink Management**: When updating to a new version, update the symlink:
-   ```bash
-   cd build/libs
-   ln -sf gh_mcp_server-X.Y.Z.jar gh_mcp_server.jar
-   ```
+   **Automatic Symlink Management**: The build process automatically creates and maintains the symlink:
+   - `./gradlew build` creates `gh_mcp_server.jar` → `gh_mcp_server-X.Y.Z.jar`
+   - `./gradlew clean build` recreates the symlink with the correct version
+   - No manual symlink management required
 
 ### Configuration Management
 

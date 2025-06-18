@@ -61,3 +61,33 @@ spotless {
 
 // Make compileJava depend on spotlessApply to ensure code is formatted before compilation
 compileJava.dependsOn spotlessApply
+
+// Task to create version-independent symlink
+tasks.register('createSymlink') {
+    description = 'Creates a version-independent symlink to the JAR file'
+    group = 'build'
+    
+    dependsOn bootJar
+    
+    doLast {
+        def libsDir = file("${buildDir}/libs")
+        def versionedJar = file("${libsDir}/${project.name}-${project.version}.jar")
+        def symlinkJar = file("${libsDir}/${project.name}.jar")
+        
+        if (versionedJar.exists()) {
+            // Remove existing symlink if it exists
+            if (symlinkJar.exists()) {
+                symlinkJar.delete()
+            }
+            
+            // Create new symlink
+            ant.symlink(link: symlinkJar, resource: versionedJar.name)
+            println "Created symlink: ${symlinkJar.name} -> ${versionedJar.name}"
+        } else {
+            println "Warning: Versioned JAR not found at ${versionedJar}"
+        }
+    }
+}
+
+// Automatically create symlink after building
+build.finalizedBy createSymlink
