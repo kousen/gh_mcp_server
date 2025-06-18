@@ -150,8 +150,9 @@ The build produces versioned JAR files (e.g., `gh_mcp_server-1.0.0.jar`). When d
 
 ### Recommended Deployment Approach
 1. Use the Gradle option in Claude Desktop for development (auto-uses latest build)
-2. Use versioned JAR for production deployments
-3. Create symlinks or deployment scripts for easier version management
+2. Use the provided symlink `gh_mcp_server.jar` for version-independent deployment
+3. Use versioned JAR for version-specific production deployments
+4. Update symlink when deploying new versions: `ln -sf gh_mcp_server-X.Y.Z.jar gh_mcp_server.jar`
 
 ## Best Practices for AI Assistants
 

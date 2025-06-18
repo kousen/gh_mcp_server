@@ -113,14 +113,14 @@ Replace `/path/to/gh_mcp_server` with the actual path to your project directory.
      "mcpServers": {
        "github": {
          "command": "java",
-         "args": ["-jar", "/path/to/gh_mcp_server/build/libs/gh_mcp_server-1.0.0.jar"],
+         "args": ["-jar", "/path/to/gh_mcp_server/build/libs/gh_mcp_server.jar"],
          "env": {}
        }
      }
    }
    ```
    
-   > **Note**: The JAR filename includes the version number (currently `1.0.0`). If you update to a newer version, make sure to update the JAR filename in your configuration accordingly.
+   > **Note**: A symlink `gh_mcp_server.jar` points to the current version (`gh_mcp_server-1.0.0.jar`). This provides version-independent deployment. For version-specific deployment, use the full versioned filename instead.
 
    **Option B: Using Gradle**
    ```json
@@ -339,9 +339,15 @@ The build process generates JAR files with version numbers in the filename (e.g.
    - Restart Claude Desktop to load the new version
 
 3. **Version-Independent Deployment**: For easier deployment, you can:
+   - Use the provided symlink `gh_mcp_server.jar` (already created in build/libs/)
    - Use the Gradle option (automatically uses latest build)
-   - Create a symlink: `ln -sf gh_mcp_server-1.0.0.jar gh_mcp_server.jar`
    - Use a deployment script that handles version updates
+
+   **Symlink Management**: When updating to a new version, update the symlink:
+   ```bash
+   cd build/libs
+   ln -sf gh_mcp_server-X.Y.Z.jar gh_mcp_server.jar
+   ```
 
 ### Configuration Management
 
