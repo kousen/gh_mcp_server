@@ -11,11 +11,10 @@ import org.junit.jupiter.api.Test;
 class GithubServiceEdgeCaseTest {
 
   private TestGithubService githubService;
-  private GitHubProperties gitHubProperties;
 
   @BeforeEach
   void setUp() {
-    gitHubProperties = new GitHubProperties("main");
+    GitHubProperties gitHubProperties = new GitHubProperties("main");
     githubService = new TestGithubService(gitHubProperties);
     githubService.reset();
   }
